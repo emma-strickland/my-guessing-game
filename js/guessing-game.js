@@ -37,22 +37,19 @@ class Game {
     } else {
       let num = parseInt(guess)
       this.playersGuess = num;
-      console.log(this.pastGuesses)
       return this.checkGuess();
     }
   }
   checkGuess() {
     let feedback = '';
-    console.log(this.pastGuesses)
-    console.log(this.winningNumber)
 
     if (this.playersGuess === this.winningNumber) {
       // TODO: when the winning number is found, it replaces the previous position in the UI box
-      return `You Win! The number was ${this.winningNumber} 🥳`;
+      feedback = `You Win! The number was ${this.winningNumber} 🥳`;
     }
     else if (this.pastGuesses.includes(this.playersGuess)) {
       // document.getElementById('input').style.borderColor = '#A02E3E';
-      return 'You have already guessed that number.'
+      feedback = 'You have already guessed that number.'
     }
     else {
       this.pastGuesses.push(this.playersGuess);
@@ -90,18 +87,13 @@ class Game {
         }
       }
     }
-    // copied this from solutions...
-    
     document.querySelector('#guess-feedback > h4').innerHTML = feedback
     document.querySelector(`#previous-guesses li:nth-child(${this.pastGuesses.length})`).innerHTML = this.playersGuess
     return feedback
-    
   } 
   provideHint() {
     let newArr = new Array(this.winningNumber, generateWinningNumber(), generateWinningNumber())
-    console.log(newArr)
     let hint = shuffle(newArr);
-    document.getElementById('hint').innerHTML = hint;
     return hint;
   }
 }
@@ -110,6 +102,14 @@ class Game {
 const playGame = () => {
   const game = new Game;
 
+  // TODO: function to disable submit & hint button when game is won/lost
+
+
+  // TODO: function to update message based on input
+
+
+
+  // Clear input value when submit is clicked
   const button = document.querySelector('button')
   button.addEventListener("click", function() {
     const playersGuess = document.querySelector('input').value;
@@ -118,12 +118,13 @@ const playGame = () => {
     game.playersGuessSubmission(playersGuess)
   });
 
-  // TODO: add string that says 'the winning number is either...'
   const hint = document.getElementById('hint-button')
   hint.addEventListener("click", function() {
-
-    game.provideHint();
+    let hints = game.provideHint();
+    document.getElementById('hint').innerHTML = `The winning number is either ${hints[0]}, ${hints[1]}, or ${hints[2]}`
   })
+
+
 
 }
 
