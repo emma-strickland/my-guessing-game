@@ -1,3 +1,3 @@
-# my-guessing-game
+# My Guessing Game
 
 TODO
