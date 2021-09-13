@@ -45,6 +45,7 @@ class Game {
 
     if (this.playersGuess === this.winningNumber) {
       // TODO: when the winning number is found, it replaces the previous position in the UI box
+      this.pastGuesses.push(this.playersGuess)
       feedback = `You Win! The number was ${this.winningNumber} 🥳`;
     }
     else if (this.pastGuesses.includes(this.playersGuess)) {
@@ -88,9 +89,9 @@ class Game {
       }
     }
     document.querySelector('#guess-feedback > h4').innerHTML = feedback
-    document.querySelector(`#previous-guesses li:nth-child(${this.pastGuesses.length})`).innerHTML = this.playersGuess
+    document.querySelector(`#previous-guesses li:nth-child(${this.pastGuesses.length})`).innerHTML = this.pastGuesses[this.pastGuesses.length - 1]
     return feedback
-  } 
+  }
   provideHint() {
     let newArr = new Array(this.winningNumber, generateWinningNumber(), generateWinningNumber())
     let hint = shuffle(newArr);
@@ -109,6 +110,7 @@ const playGame = () => {
 
 
 
+
   // Clear input value when submit is clicked
   const button = document.querySelector('button')
   button.addEventListener("click", function() {
@@ -121,11 +123,10 @@ const playGame = () => {
   const hint = document.getElementById('hint-button')
   hint.addEventListener("click", function() {
     let hints = game.provideHint();
-    document.getElementById('hint').innerHTML = `The winning number is either ${hints[0]}, ${hints[1]}, or ${hints[2]}`
+    document.getElementById('hint').innerHTML = `The winning number is either ${hints[0]}, ${hints[1]}, or ${hints[2]}`;
+    // Why isn't this working...
+    document.getElementById('hint-button').disabled = true;
   })
-
-
-
 }
 
 playGame()
